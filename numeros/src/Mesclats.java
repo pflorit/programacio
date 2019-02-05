@@ -22,7 +22,8 @@ public class Mesclats {
 				senar = br_senars.readLine();
 				//mientras haya datos los escribira
 				if (parell!=null) {
-				bw.write(parell+nl);}
+				bw.write(parell+nl);
+				}
 				if (senar!=null) {
 				bw.write(senar+nl);
 				}
