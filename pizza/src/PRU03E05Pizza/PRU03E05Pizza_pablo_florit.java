@@ -5,7 +5,6 @@ package PRU03E05Pizza;
 	  public String estat;
 	  public static int demanades = 0;
 	  public static int servides = 0;
-	  
 	  public PRU03E05Pizza_pablo_florit(String tipus, String tamany) {
 		  //agafam el tipus i tamany de la pizza i afegim l'estat (demanada per defecte)
 			this.tipus = tipus;
@@ -26,6 +25,10 @@ package PRU03E05Pizza;
 			}
 	  }
 	  //mostram totes les demanades
+	  /**
+	   * metodo para obtener cuantas pizzas han sido pedidas 
+	   * @return total pedidas (int)
+	   */
 	  public static int getTotalDemanades() {
 	    return PRU03E05Pizza_pablo_florit.demanades;
 	  }
@@ -33,7 +36,9 @@ package PRU03E05Pizza;
 	  public static int getTotalServides() {
 	    return PRU03E05Pizza_pablo_florit.servides;
 	  }
-
+	  /**
+	   * sirve la pizza
+	   */
 	  public void sirve() {
 		//si esta demanada canviam l'estat a servida,...
 	    if (this.estat.equals("demanada")) {

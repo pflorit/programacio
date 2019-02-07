@@ -13,6 +13,7 @@ public class ComandesPizza {
 		p2.sirve();
 		System.out.println("demanades: "+ PRU03E05Pizza_pablo_florit.getTotalDemanades());
 		System.out.println("servides: "+ PRU03E05Pizza_pablo_florit.getTotalServides());	
+		System.out.println("Interesante matiz");
 	}
 
 }
