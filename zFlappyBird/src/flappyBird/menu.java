@@ -25,7 +25,7 @@ public class menu extends JFrame {
 	private JTextField textField;
 	public static menu frame = new menu();
 	public int dificultad;
-	public String jugador;
+	public static String jugador;
 	/**
 	 * Create the frame.
 	 */
@@ -46,6 +46,7 @@ public class menu extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				jugador=textField.getText();
 				frame.setVisible(false);
+				FlappyBird.flappyBird = new FlappyBird();
 			}
 		});
 		btnNewButton.setBounds(92, 192, 89, 23);

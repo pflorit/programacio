@@ -48,6 +48,8 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 	
 	private static int BestScore;
 	
+	public String nl = System.getProperty("line.separator");
+	
 	menu men = new menu();
 	
 	// Musica del juego
@@ -330,7 +332,8 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 	public void SaveBestScore(int BestScore) {
 		try {
 			bw=new BufferedWriter(new FileWriter("C:\\Temp\\Score.txt"));
-			bw.write(String.valueOf(BestScore));
+			bw.write(String.valueOf(BestScore+nl));
+			bw.write(menu.jugador);
 			bw.close();
 		} catch (FileNotFoundException e) {
 			System.out.println("File not found");
@@ -353,8 +356,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 	}
 	
 	
-	public static void main(String[] args)
-	{
+	public static void main(String[] args){
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
