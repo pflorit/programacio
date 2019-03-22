@@ -48,6 +48,10 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 	
 	private static int BestScore;
 	
+	private int speed = 10;
+	
+	private int space = 300;
+	
 	public String nl = System.getProperty("line.separator");
 	
 	menu men = new menu();
@@ -122,8 +126,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 
 	public void addColumn(boolean start)
 	{
-		// space es el espacio entre las dos columnas, las puedo usar para hacer niveles
-		int space = 300;	
+		// space es el espacio entre las dos columnas, las puedo usar para hacer niveles	
 		int width = 100;
 		int height = 50 + rand.nextInt(300);
 
@@ -180,7 +183,6 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		int speed = 10;
 
 		ticks++;
 
