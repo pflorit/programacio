@@ -48,25 +48,49 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 	
 	private static int BestScore;
 	
-	Audio repro = new Audio();
-	
 	menu men = new menu();
 	
-	public void ReproduceAudio() {
-		repro = new Audio();   
+	// Musica del juego
+	Audio repro = new Audio();
+		
+	// Sonido de paso por columnas 
+	Audio reprocol = new Audio();
+		
+	// Sonido de muerte
+	Audio death = new Audio();
+		
+	public void ReproduceAudio() { 
 		try {
-			  repro.AbrirFichero("C:\\Temp\\FlappyBird\\paraAudio\\tetris.mp3");
-			  repro.Play();
-			  
-			} catch (Exception ex) {
-			  System.out.println("Error: " + ex.getMessage());
+			repro.AbrirFichero("C:\\Temp\\\\Sonidos\\undertale.wav");
+			repro.Play();
+				  
+		} catch (Exception ex) {
+			System.out.println("Error: " + ex.getMessage());
 			}
 	}
-	
+		
+	public void AudioColumna() {
+		try {
+			reprocol.AbrirFichero("C:\\Temp\\Sonidos\\Column.wav");
+		} catch (Exception ex) {
+			System.out.println("Error: " + ex.getMessage());
+		}
+			 
+	}
+		
+		public void AudioMuerte() {
+			try {
+				death.AbrirFichero("C:\\Temp\\Sonidos\\golpe.wav");
+			} catch (Exception e) {
+				System.out.println("Error: " + e);
+			}
+		}
 	
 	public FlappyBird()
 	{	
 		ReproduceAudio();
+		AudioColumna();
+		AudioMuerte();
 		
 		JFrame jframe = new JFrame();
 		Timer timer = new Timer(20, this);
@@ -194,6 +218,11 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 			{	
 				if (column.y == 0 && bird.x + bird.width / 2 > column.x + column.width / 2 - 10 && bird.x + bird.width / 2 < column.x + column.width / 2 + 10)
 				{
+					try {
+						reprocol.Play();
+					} catch (Exception e1) {
+						System.out.println("Error: " + e1.getMessage());
+					}
 					score++;
 				}
 				
@@ -208,6 +237,11 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 					}
 					else
 					{
+						try {
+							reprocol.Stop();
+						} catch (Exception e1) {
+							e1.printStackTrace();
+						}
 						if (column.y != 0)
 						{
 							bird.y = column.y - bird.height;
@@ -272,6 +306,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 				BestScore=score;
 				SaveBestScore(BestScore);
 			}    
+			death.Play();
 			g.drawString("Game Over!", 100, HEIGHT / 2 - 50);
 			
 			g.drawString("Best Score: " + BestScore, 100, HEIGHT / 2 - 150);
@@ -330,8 +365,6 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 				}
 			}
 		});
-		flappyBird = new FlappyBird();
-		
 	}
 
 	@Override
