@@ -50,11 +50,11 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 	
 	private int speed = 10;
 	
-	private int space = 300;
+	private int space = 0;
 	
 	public String nl = System.getProperty("line.separator");
 	
-	menu men = new menu();
+	Menu men = new Menu();
 	
 	// Musica del juego
 	Audio repro = new Audio();
@@ -126,7 +126,6 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 
 	public void addColumn(boolean start)
 	{
-		// space es el espacio entre las dos columnas, las puedo usar para hacer niveles	
 		int width = 100;
 		int height = 50 + rand.nextInt(300);
 
@@ -335,7 +334,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 		try {
 			bw=new BufferedWriter(new FileWriter("C:\\Temp\\Score.txt"));
 			bw.write(String.valueOf(BestScore+nl));
-			bw.write(menu.jugador);
+			bw.write(Menu.jugador);
 			bw.close();
 		} catch (FileNotFoundException e) {
 			System.out.println("File not found");
@@ -362,8 +361,8 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					menu.frame.setVisible(true);
-					menu.frame.setResizable(false);
+					Menu.frame.setVisible(true);
+					Menu.frame.setResizable(false);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
