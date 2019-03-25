@@ -25,7 +25,7 @@ import javax.swing.Timer;
 
 public class FlappyBird implements ActionListener, MouseListener, KeyListener
 {
-	
+
 	public static FlappyBird flappyBird;
 
 	public final int WIDTH = 800, HEIGHT = 800;
@@ -41,63 +41,76 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 	public boolean gameOver, started;
 
 	public Random rand;
-	
+
 	private BufferedWriter bw;
-	
+
 	private BufferedReader br;
-	
+
 	private static int BestScore;
-	
+
 	private int speed = 10;
-	
-	private int space = 0;
-	
+
+	private int space = 300;
+
 	public String nl = System.getProperty("line.separator");
-	
+
 	Menu men = new Menu();
-	
+
 	// Musica del juego
 	Audio repro = new Audio();
-		
+
 	// Sonido de paso por columnas 
 	Audio reprocol = new Audio();
-		
+
 	// Sonido de muerte
 	Audio death = new Audio();
-		
+
 	public void ReproduceAudio() { 
 		try {
-			repro.AbrirFichero("C:\\Temp\\\\Sonidos\\undertale.wav");
+			repro.AbrirFichero("C:\\Temp\\Sonidos\\tetris.mp3");
 			repro.Play();
-				  
+
 		} catch (Exception ex) {
 			System.out.println("Error: " + ex.getMessage());
-			}
+		}
 	}
-		
+	public void cambiarDificultad(){
+		if (Menu.dificultad == "facil") {
+			speed = 10;
+			space = 300;
+		}else if (Menu.dificultad == "normal") {
+			speed = 10;
+			space = 250;
+		}else if (Menu.dificultad == "dificil") {
+			speed = 15 ;
+			space = 250;
+		}
+	}
+
 	public void AudioColumna() {
 		try {
 			reprocol.AbrirFichero("C:\\Temp\\Sonidos\\Column.wav");
 		} catch (Exception ex) {
 			System.out.println("Error: " + ex.getMessage());
 		}
-			 
+
 	}
-		
-		public void AudioMuerte() {
-			try {
-				death.AbrirFichero("C:\\Temp\\Sonidos\\golpe.wav");
-			} catch (Exception e) {
-				System.out.println("Error: " + e);
-			}
+
+	public void AudioMuerte() {
+		try {
+			death.AbrirFichero("C:\\Temp\\Sonidos\\golpe.wav");
+		} catch (Exception e) {
+			System.out.println("Error: " + e);
 		}
-	
+	}
+
 	public FlappyBird()
 	{	
+		cambiarDificultad();
 		ReproduceAudio();
 		AudioColumna();
 		AudioMuerte();
-		
+
 		JFrame jframe = new JFrame();
 		Timer timer = new Timer(20, this);
 
@@ -160,7 +173,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 			addColumn(true);
 			addColumn(true);
 			addColumn(true);
-			
+
 			gameOver = false;
 		}
 
@@ -170,8 +183,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 		}
 		else if (!gameOver)
 		{
-			if (yMotion > 0)
-			{
+			if (yMotion > 0) {
 				yMotion = 0;
 			}
 
@@ -182,12 +194,11 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-
 		ticks++;
 
 		if (started)
 		{ 
-			
+
 			for (int i = 0; i < columns.size(); i++)
 			{
 				Rectangle column = columns.get(i);
@@ -216,7 +227,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 			}
 
 			bird.y += yMotion;
-			
+
 			for (Rectangle column : columns)
 			{	
 				if (column.y == 0 && bird.x + bird.width / 2 > column.x + column.width / 2 - 10 && bird.x + bird.width / 2 < column.x + column.width / 2 + 10)
@@ -228,7 +239,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 					}
 					score++;
 				}
-				
+
 				if (column.intersects(bird))
 				{
 					gameOver = true;
@@ -256,7 +267,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 					}
 				}
 			}
-			
+
 
 			if (bird.y > HEIGHT - 120 || bird.y < 0)
 			{
@@ -271,7 +282,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 		}
 		renderer.repaint();
 	}
-	
+
 	public void repaint(Graphics g) throws Exception
 	{
 		GetBestScore();
@@ -297,7 +308,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 		if (!gameOver) {
 			repro.Play();
 		}
-		
+
 		if (!started)
 		{
 			g.drawString("Click to start!", 75, HEIGHT / 2 - 50);
@@ -311,10 +322,10 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 			}    
 			death.Play();
 			g.drawString("Game Over!", 100, HEIGHT / 2 - 50);
-			
+
 			g.drawString("Best Score: " + BestScore, 100, HEIGHT / 2 - 150);
 			repro.Stop();
-			
+
 			this.SaveBestScore(BestScore);
 		}
 
@@ -328,13 +339,23 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 			}
 		}
 	}
-	
+
 	// Guardar Best Score
 	public void SaveBestScore(int BestScore) {
 		try {
-			bw=new BufferedWriter(new FileWriter("C:\\Temp\\Score.txt"));
-			bw.write(String.valueOf(BestScore+nl));
-			bw.write(Menu.jugador);
+			if (Menu.dificultad == "facil") {
+				bw=new BufferedWriter(new FileWriter("C:\\Temp\\EasyScore.txt"));
+				bw.write(String.valueOf(BestScore+nl));
+				bw.write(Menu.jugador);
+			}else if (Menu.dificultad == "normal") {
+				bw=new BufferedWriter(new FileWriter("C:\\Temp\\NormalScore.txt"));
+				bw.write(String.valueOf(BestScore+nl));
+				bw.write(Menu.jugador);
+			}else if (Menu.dificultad == "dificil") {
+				bw=new BufferedWriter(new FileWriter("C:\\Temp\\HardScore.txt"));
+				bw.write(String.valueOf(BestScore+nl));
+				bw.write(Menu.jugador);
+			}
 			bw.close();
 		} catch (FileNotFoundException e) {
 			System.out.println("File not found");
@@ -342,21 +363,29 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 			System.out.println("File can't open");
 		} 
 	}
-	
+
 	// Obtener best score
 	public void GetBestScore() {
 		try {
-				br=new BufferedReader(new FileReader("C:\\Temp\\Score.txt"));
+			if (Menu.dificultad == "facil") {
+				br=new BufferedReader(new FileReader("C:\\Temp\\EasyScore.txt"));
 				BestScore=Integer.parseInt(br.readLine());		
-				br.close();
+			}else if (Menu.dificultad == "normal") {
+				br=new BufferedReader(new FileReader("C:\\Temp\\NormalScore.txt"));
+				BestScore=Integer.parseInt(br.readLine());
+			}else if (Menu.dificultad == "dificil") {
+				br=new BufferedReader(new FileReader("C:\\Temp\\HardScore.txt"));
+				BestScore=Integer.parseInt(br.readLine());
+			}
+			br.close();
 		} catch (FileNotFoundException e) {
 			System.out.println("File not found");
 		} catch (IOException e) {
 			System.out.println("File can't open");
 		} 
 	}
-	
-	
+
+
 	public static void main(String[] args){
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -384,7 +413,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 			jump();
 		}
 	}
-	
+
 	@Override
 	public void mousePressed(MouseEvent e)
 	{

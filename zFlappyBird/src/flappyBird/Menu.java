@@ -25,7 +25,7 @@ public class Menu extends JFrame {
 	private JPanel contentPane;
 	private JTextField textField;
 	public static Menu frame = new Menu();
-	public String dificultad;
+	public static String dificultad;
 	public static String jugador;
 	public ButtonGroup grupo = new ButtonGroup();
 	/**
