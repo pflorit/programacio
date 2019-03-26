@@ -19,6 +19,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
+
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.Timer;
 
@@ -283,18 +285,17 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 		renderer.repaint();
 	}
 
+	public void pintaFondo(Graphics g) throws Exception{
+		ImageIcon imagen = new ImageIcon(new ImageIcon(getClass().getResource("/flappyBird/fondo.gif")).getImage());
+		g.drawImage(imagen.getImage(), 0,0,WIDTH,HEIGHT, null);
+	}
+	
 	public void repaint(Graphics g) throws Exception
 	{
 		GetBestScore();
-		g.setColor(Color.cyan);
-		g.fillRect(0, 0, WIDTH, HEIGHT);
 
-		g.setColor(Color.orange);
-		g.fillRect(0, HEIGHT - 120, WIDTH, 120);
-
-		g.setColor(Color.green);
-		g.fillRect(0, HEIGHT - 120, WIDTH, 20);
-
+		pintaFondo(g);
+		
 		g.setColor(Color.red);
 		g.fillRect(bird.x, bird.y, bird.width, bird.height);
 		for (Rectangle column : columns)
