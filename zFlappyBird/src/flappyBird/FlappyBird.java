@@ -70,8 +70,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 	public void ReproduceAudio() { 
 		try {
 			repro.AbrirFichero("C:\\Temp\\Sonidos\\tetris.mp3");
-			repro.Play();
-
+			repro.Play();	
 		} catch (Exception ex) {
 			System.out.println("Error: " + ex.getMessage());
 		}
@@ -79,16 +78,17 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 	public void cambiarDificultad(){
 		if (Menu.dificultad == "facil") {
 			speed = 10;
-			space = 300;
+			space = 350;
 		}else if (Menu.dificultad == "normal") {
 			speed = 10;
-			space = 250;
+			space = 300;
 		}else if (Menu.dificultad == "dificil") {
 			speed = 15 ;
-			space = 250;
+			space = 300;
 		}
 	}
 
+		
 	public void AudioColumna() {
 		try {
 			reprocol.AbrirFichero("C:\\Temp\\Sonidos\\Column.wav");
@@ -284,18 +284,22 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 		}
 		renderer.repaint();
 	}
-
 	public void pintaFondo(Graphics g) throws Exception{
-		ImageIcon imagen = new ImageIcon(new ImageIcon(getClass().getResource("/flappyBird/fondo.gif")).getImage());
+		ImageIcon imagen = new ImageIcon(new ImageIcon(getClass().getResource("/flappyBird/fondo.jpg")).getImage());
 		g.drawImage(imagen.getImage(), 0,0,WIDTH,HEIGHT, null);
 	}
+	//Pajaro
+	/**public void pintaPajaro(Graphics g) throws Exception{
+		ImageIcon imagen = new ImageIcon(new ImageIcon(getClass().getResource("/flappyBird/pajaro.jpg")).getImage());
+		g.drawImage(imagen.getImage(), 0,0,bird.width,bird.height, null);
+	}*/
 	
 	public void repaint(Graphics g) throws Exception
 	{
 		GetBestScore();
-
-		pintaFondo(g);
 		
+		pintaFondo(g);
+
 		g.setColor(Color.red);
 		g.fillRect(bird.x, bird.y, bird.width, bird.height);
 		for (Rectangle column : columns)
@@ -438,7 +442,6 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 	@Override
 	public void keyTyped(KeyEvent e)
 	{
-
 	}
 
 	@Override
