@@ -234,10 +234,22 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 			}
 
 			bird.y += yMotion;
-
+			
+			// Sirve para la puntuacion, por error de sumar 2
+			int a;
+			int b;
+			
 			for (Rectangle column : columns)
 			{	
-				if (column.y == 0 && bird.x + bird.width / 2 > column.x + column.width / 2 - 10 && bird.x + bird.width / 2 < column.x + column.width / 2 + 10)
+				if (Menu.dificultad == "dificil") {
+					 a = 5;
+					 b = 10;
+				} else {
+					 a = 10;
+					 b = 5;
+				}
+				
+				if (column.y == 0 && bird.x + bird.width / 2 > column.x + column.width / 2 - a && bird.x + bird.width / 2 < column.x + column.width / 2 + b)
 				{
 					try {
 						reprocol.Play();
