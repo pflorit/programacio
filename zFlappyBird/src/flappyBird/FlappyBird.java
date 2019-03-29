@@ -13,6 +13,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -163,8 +164,9 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 
 	public void paintColumn(Graphics g, Rectangle column)
 	{
+		ImageIcon tub = new ImageIcon(new ImageIcon(getClass().getResource("/flappyBird/Tub.JPG")).getImage());
 		g.setColor(Color.green.darker());
-		g.fillRect(column.x, column.y, column.width, column.height);
+		g.drawImage(tub.getImage(), column.x, column.y, column.width, column.height, null);
 	}
 
 	public void jump()
@@ -303,7 +305,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 	}
 	public void pintaFondo(Graphics g) throws Exception{
 		ImageIcon imagen = new ImageIcon(new ImageIcon(getClass().getResource("/flappyBird/fondo.jpg")).getImage());
-		g.drawImage(imagen.getImage(), 0,0,WIDTH,HEIGHT, null);
+		g.drawImage(imagen.getImage(), 0,0,WIDTH,HEIGHT - 20, null);
 	}
 	
 	
@@ -313,7 +315,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 		
 		pintaFondo(g);
 		
-		ImageIcon p = new ImageIcon(new ImageIcon(getClass().getResource("/flappyBird/pajaro.png")).getImage());
+		ImageIcon p = new ImageIcon(new ImageIcon(getClass().getResource("/flappyBird/pajaroFly.gif")).getImage());
 		
 		g.setColor(Color.red);
 		g.drawImage(p.getImage(), bird.x, bird.y, bird.width, bird.height, null);
