@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,19 +11,14 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
-
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.Timer;
@@ -75,8 +68,12 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 
 	public void ReproduceAudio() { 
 		try {
-			repro.AbrirFichero("C:\\Temp\\Sonidos\\tetris.mp3");
-			repro.Play();	
+			if (Menu.jugador.equals("undertale")) {
+				repro.AbrirFichero("C:\\Temp\\Sonidos\\undertale.wav");
+			} else {
+				repro.AbrirFichero("C:\\Temp\\Sonidos\\tetris.mp3");
+				repro.Play();
+			}	
 		} catch (Exception ex) {
 			System.out.println("Error: " + ex.getMessage());
 		}
@@ -164,9 +161,15 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 
 	public void paintColumn(Graphics g, Rectangle column)
 	{
-		ImageIcon tub = new ImageIcon(new ImageIcon(getClass().getResource("/flappyBird/Tub.JPG")).getImage());
-		g.setColor(Color.green.darker());
-		g.drawImage(tub.getImage(), column.x, column.y, column.width, column.height, null);
+		if (Menu.jugador.equals("undertale")) {
+			ImageIcon tub = new ImageIcon(new ImageIcon(getClass().getResource("/flappyBird/hueso.png")).getImage());
+			g.drawImage(tub.getImage(), column.x, column.y, column.width, column.height, null);
+	
+		} else {
+			ImageIcon tub = new ImageIcon(new ImageIcon(getClass().getResource("/flappyBird/Tub.JPG")).getImage());
+			g.drawImage(tub.getImage(), column.x, column.y, column.width, column.height, null);
+		}
+		
 	}
 
 	public void jump()
@@ -304,8 +307,23 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 		renderer.repaint();
 	}
 	public void pintaFondo(Graphics g) throws Exception{
-		ImageIcon imagen = new ImageIcon(new ImageIcon(getClass().getResource("/flappyBird/fondo.jpg")).getImage());
-		g.drawImage(imagen.getImage(), 0,0,WIDTH,HEIGHT - 20, null);
+		if (Menu.jugador.equals("undertale")) {
+			ImageIcon imagen = new ImageIcon(new ImageIcon(getClass().getResource("/flappyBird/fondo-und.png")).getImage());
+			g.drawImage(imagen.getImage(), 0,0,WIDTH,HEIGHT - 20, null);
+		} else {
+			ImageIcon imagen = new ImageIcon(new ImageIcon(getClass().getResource("/flappyBird/fondo.jpg")).getImage());
+			g.drawImage(imagen.getImage(), 0,0,WIDTH,HEIGHT - 20, null);
+		}
+		
+		if (Menu.jugador.equals("undertale")) {
+			ImageIcon p = new ImageIcon(new ImageIcon(getClass().getResource("/flappyBird/undertale.png")).getImage());
+			g.drawImage(p.getImage(), bird.x, bird.y, bird.width, bird.height, null);
+			g.setColor(Color.BLACK);
+			g.fillRect(0, HEIGHT - 120, WIDTH, 140);
+		} else {
+			ImageIcon p = new ImageIcon(new ImageIcon(getClass().getResource("/flappyBird/pajaroFly.gif")).getImage());
+			g.drawImage(p.getImage(), bird.x, bird.y, bird.width, bird.height, null);	
+		}
 	}
 	
 	
@@ -314,11 +332,6 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 		GetBestScore();
 		
 		pintaFondo(g);
-		
-		ImageIcon p = new ImageIcon(new ImageIcon(getClass().getResource("/flappyBird/pajaroFly.gif")).getImage());
-		
-		g.setColor(Color.red);
-		g.drawImage(p.getImage(), bird.x, bird.y, bird.width, bird.height, null);
 		
 		for (Rectangle column : columns)
 		{
