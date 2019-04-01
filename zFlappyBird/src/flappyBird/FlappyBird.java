@@ -68,7 +68,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 
 	public void ReproduceAudio() { 
 		try {
-			if (Menu.jugador.equals("undertale")) {
+			if (Menu.jugador.equals("undertale") || Menu.jugador.equals("Undertale")) {
 				repro.AbrirFichero("C:\\Temp\\Sonidos\\undertale.wav");
 			} else {
 				repro.AbrirFichero("C:\\Temp\\Sonidos\\tetris.mp3");
@@ -131,7 +131,11 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 		jframe.setResizable(false);
 		jframe.setVisible(true);
 
-		bird = new Rectangle(WIDTH / 2 - 10, HEIGHT / 2 - 10, 50, 50);
+		if (Menu.jugador.equals("cide") || Menu.jugador.equals("Cide") || Menu.jugador.equals("CIDE")) {
+			bird = new Rectangle(WIDTH / 2 - 10, HEIGHT / 2 - 10, 100, 100);
+		} else {
+			bird = new Rectangle(WIDTH / 2 - 10, HEIGHT / 2 - 10, 50, 50);
+		}
 		columns = new ArrayList<Rectangle>();
 
 		addColumn(true);
@@ -161,7 +165,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 
 	public void paintColumn(Graphics g, Rectangle column)
 	{
-		if (Menu.jugador.equals("undertale")) {
+		if (Menu.jugador.equals("undertale") || Menu.jugador.equals("Undertale")) {
 			ImageIcon tub = new ImageIcon(new ImageIcon(getClass().getResource("/flappyBird/hueso.png")).getImage());
 			g.drawImage(tub.getImage(), column.x, column.y, column.width, column.height, null);
 	
@@ -176,7 +180,11 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 	{
 		if (gameOver)
 		{
-			bird = new Rectangle(WIDTH / 2 - 10, HEIGHT / 2 - 10, 50, 50);
+			if (Menu.jugador.equals("cide") || Menu.jugador.equals("Cide") || Menu.jugador.equals("CIDE")) {
+				bird = new Rectangle(WIDTH / 2 - 10, HEIGHT / 2 - 10, 100, 100);
+			} else {
+				bird = new Rectangle(WIDTH / 2 - 10, HEIGHT / 2 - 10, 50, 50);
+			}
 			columns.clear();
 			yMotion = 0;
 			score = 0;
@@ -306,21 +314,39 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 		}
 		renderer.repaint();
 	}
+	
+	// Pinta el fondo de pantalla + el pajaro
 	public void pintaFondo(Graphics g) throws Exception{
-		if (Menu.jugador.equals("undertale")) {
+		if (Menu.jugador.equals("undertale") || Menu.jugador.equals("Undertale")) {
+			// Pinta el fondo de pantalla
 			ImageIcon imagen = new ImageIcon(new ImageIcon(getClass().getResource("/flappyBird/fondo-und.png")).getImage());
 			g.drawImage(imagen.getImage(), 0,0,WIDTH,HEIGHT - 20, null);
-		} else {
-			ImageIcon imagen = new ImageIcon(new ImageIcon(getClass().getResource("/flappyBird/fondo.jpg")).getImage());
-			g.drawImage(imagen.getImage(), 0,0,WIDTH,HEIGHT - 20, null);
-		}
-		
-		if (Menu.jugador.equals("undertale")) {
+			
+			// Pinta pajaro
 			ImageIcon p = new ImageIcon(new ImageIcon(getClass().getResource("/flappyBird/undertale.png")).getImage());
 			g.drawImage(p.getImage(), bird.x, bird.y, bird.width, bird.height, null);
+			// Pinta el suelo
 			g.setColor(Color.BLACK);
 			g.fillRect(0, HEIGHT - 120, WIDTH, 140);
+			
+		} else if (Menu.jugador.equals("cide") || Menu.jugador.equals("Cide") || Menu.jugador.equals("CIDE")) {
+			// Pinta el fondo de pantalla
+			ImageIcon imagen = new ImageIcon(new ImageIcon(getClass().getResource("/flappyBird/CIDE.jpg")).getImage());
+			g.drawImage(imagen.getImage(), 0,0,WIDTH,HEIGHT - 20, null);
+						
+			// Pinta pajaro
+			ImageIcon p = new ImageIcon(new ImageIcon(getClass().getResource("/flappyBird/super.png")).getImage());
+			g.drawImage(p.getImage(), bird.x, bird.y, bird.width, bird.height, null);	
+			// Pinta el suelo
+			g.setColor(Color.GREEN.darker());
+			g.fillRect(0, HEIGHT - 120, WIDTH, 140);
+			
 		} else {
+			// Pinta el fondo de pantalla
+			ImageIcon imagen = new ImageIcon(new ImageIcon(getClass().getResource("/flappyBird/fondo.jpg")).getImage());
+			g.drawImage(imagen.getImage(), 0,0,WIDTH,HEIGHT - 20, null);
+			
+			// Pinta pajaro
 			ImageIcon p = new ImageIcon(new ImageIcon(getClass().getResource("/flappyBird/pajaroFly.gif")).getImage());
 			g.drawImage(p.getImage(), bird.x, bird.y, bird.width, bird.height, null);	
 		}
