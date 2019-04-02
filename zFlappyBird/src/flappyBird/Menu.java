@@ -15,6 +15,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JRadioButton;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class Menu extends JFrame {
 
@@ -46,18 +48,21 @@ public class Menu extends JFrame {
 		JButton btnNewButton = new JButton("START");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				jugador=textField.getText();
-				System.out.println("Jugador: "+jugador);
-				dificultad = grupo.getSelection().getActionCommand();
-				System.out.println("Dificultad: "+dificultad);
-				frame.setVisible(false);
-				FlappyBird.flappyBird= new FlappyBird();
+				Empezar();
 			}
 		});
 		btnNewButton.setBounds(92, 192, 89, 23);
 		contentPane.add(btnNewButton);
 
 		textField = new JTextField();
+		textField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					Empezar();
+				}
+			}
+		});
 		textField.setBounds(20, 42, 132, 23);
 		contentPane.add(textField);
 		textField.setColumns(10);
@@ -73,17 +78,41 @@ public class Menu extends JFrame {
 		contentPane.add(lblDificultad);
 		
 		JRadioButton facil = new JRadioButton("F\u00E1cil");
+		facil.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					Empezar();
+				}
+			}
+		});
 		facil.setSelected(true);
 		facil.setBounds(80, 110, 109, 23);
 		facil.setActionCommand("facil");
 		contentPane.add(facil);
 		
 		JRadioButton dificil = new JRadioButton("Dif\u00EDcil");
+		dificil.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					Empezar();
+				}
+			}
+		});
 		dificil.setBounds(80, 162, 109, 23);
 		dificil.setActionCommand("dificil");
 		contentPane.add(dificil);
 		
 		JRadioButton normal = new JRadioButton("Normal");
+		normal.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					Empezar();
+				}
+			}
+		});
 		normal.setBounds(80, 136, 109, 23);
 		normal.setActionCommand("normal");
 		contentPane.add(normal);
@@ -93,6 +122,16 @@ public class Menu extends JFrame {
 		grupo.add(dificil);
 
 	}
+	
+	public void Empezar() {
+			jugador=textField.getText();
+			System.out.println("Jugador: "+jugador);
+			dificultad = grupo.getSelection().getActionCommand();
+			System.out.println("Dificultad: "+dificultad);
+			frame.setVisible(false);
+			FlappyBird.flappyBird= new FlappyBird();
+	}
+	
 	public static void main(String[] args){
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
