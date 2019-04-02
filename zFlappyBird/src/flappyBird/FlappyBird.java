@@ -54,6 +54,8 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 	private int space = 300;
 
 	public String nl = System.getProperty("line.separator");
+	
+	public JFrame jframe = new JFrame();
 
 	Menu men = new Menu();
 
@@ -115,8 +117,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 		ReproduceAudio();
 		AudioColumna();
 		AudioMuerte();
-
-		JFrame jframe = new JFrame();
+		
 		Timer timer = new Timer(20, this);
 
 		renderer = new Renderer();
@@ -447,6 +448,11 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 		} 
 	}
 
+	public void volvreAlMenu() {
+		Menu.frame.setVisible(true);
+		Menu.frame.setResizable(false);
+		jframe.setVisible(false);
+	}
 
 	public static void main(String[] args){
 		EventQueue.invokeLater(new Runnable() {
@@ -475,6 +481,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 			jump();
 		}
 	}
+	
 
 	@Override
 	public void mousePressed(MouseEvent e)
@@ -504,7 +511,10 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 	@Override
 	public void keyPressed(KeyEvent e)
 	{
-
+		if (e.getKeyCode() == KeyEvent.VK_ESCAPE)
+		{
+			volvreAlMenu();
+		}
 	}
 
 }
