@@ -514,6 +514,15 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 		if (e.getKeyCode() == KeyEvent.VK_ESCAPE)
 		{
 			volvreAlMenu();
+			try {
+				repro.Stop();
+				death.Stop();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+		}
+		if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_ALT) {
+			score += 10; 
 		}
 	}
 

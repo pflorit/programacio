@@ -46,6 +46,12 @@ public class Menu extends JFrame {
 		contentPane.setLayout(null);
 
 		JButton btnNewButton = new JButton("START");
+		btnNewButton.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				Empezar();
+			}
+		});
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Empezar();
