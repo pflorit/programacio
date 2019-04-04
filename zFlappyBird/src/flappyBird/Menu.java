@@ -1,12 +1,10 @@
 package flappyBird;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -34,6 +32,7 @@ public class Menu extends JFrame {
 	 * Create the frame.
 	 */
 	public Menu() {
+		//creacion del jpanel
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Flappy Bird");
 		setForeground(Color.WHITE);
@@ -44,14 +43,19 @@ public class Menu extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-
+		
+		//boton start
 		JButton btnNewButton = new JButton("START");
 		btnNewButton.addKeyListener(new KeyAdapter() {
 			@Override
-			public void keyPressed(KeyEvent arg0) {
-				Empezar();
+			//si pulsas empieza el juego
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					Empezar();
+				}
 			}
 		});
+		//si haces clic en el boton start empieza el juego
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Empezar();
@@ -60,19 +64,22 @@ public class Menu extends JFrame {
 		btnNewButton.setBounds(92, 192, 89, 23);
 		contentPane.add(btnNewButton);
 
+		//area de texto para introducir el nombre
 		textField = new JTextField();
 		textField.addKeyListener(new KeyAdapter() {
+			//si pulsas enter empieza el juego
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					Empezar();
 				}
+				
 			}
 		});
 		textField.setBounds(20, 42, 132, 23);
 		contentPane.add(textField);
 		textField.setColumns(10);
-
+		//etiquetas de nombre y dificultad para estetica del menu
 		JLabel lblNombre = new JLabel("Nombre:");
 		lblNombre.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblNombre.setBounds(20, 11, 101, 31);
@@ -83,13 +90,14 @@ public class Menu extends JFrame {
 		lblDificultad.setBounds(20, 72, 101, 31);
 		contentPane.add(lblDificultad);
 		
+		//botones para la seleccion de dificultad
 		JRadioButton facil = new JRadioButton("F\u00E1cil");
 		facil.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					Empezar();
-				}
+				}	
 			}
 		});
 		facil.setSelected(true);
@@ -97,13 +105,14 @@ public class Menu extends JFrame {
 		facil.setActionCommand("facil");
 		contentPane.add(facil);
 		
+		
 		JRadioButton dificil = new JRadioButton("Dif\u00EDcil");
 		dificil.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					Empezar();
-				}
+				}	
 			}
 		});
 		dificil.setBounds(80, 162, 109, 23);
@@ -116,38 +125,27 @@ public class Menu extends JFrame {
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					Empezar();
-				}
+				}	
 			}
 		});
 		normal.setBounds(80, 136, 109, 23);
 		normal.setActionCommand("normal");
 		contentPane.add(normal);
 		
+		//agrupacion de los botones
 		grupo.add(facil);
 		grupo.add(normal);
 		grupo.add(dificil);
-
+         
 	}
 	
+	//Al empezar guarda el nombre y la dificultad, oculta el menu y muestra el juego.
 	public void Empezar() {
-			jugador=textField.getText();
-			System.out.println("Jugador: "+jugador);
-			dificultad = grupo.getSelection().getActionCommand();
-			System.out.println("Dificultad: "+dificultad);
-			frame.setVisible(false);
-			FlappyBird.flappyBird= new FlappyBird();
-	}
-	
-	public static void main(String[] args){
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Menu.frame.setVisible(true);
-					Menu.frame.setResizable(false);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+		jugador=textField.getText();
+		System.out.println("Jugador: "+jugador);
+		dificultad = grupo.getSelection().getActionCommand();
+		System.out.println("Dificultad: "+dificultad);
+		frame.setVisible(false);
+		FlappyBird.flappyBird= new FlappyBird();
 	}
 }
