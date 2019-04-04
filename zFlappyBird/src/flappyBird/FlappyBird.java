@@ -56,6 +56,8 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 	public String nl = System.getProperty("line.separator");
 	
 	public JFrame jframe = new JFrame();
+	
+	public boolean cheater = false;
 
 	Menu men = new Menu();
 
@@ -194,7 +196,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 			addColumn(true);
 			addColumn(true);
 			addColumn(true);
-
+		
 			gameOver = false;
 		}
 
@@ -394,6 +396,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 
 		if (!gameOver && started)
 		{
+			cheater = false;
 			g.drawString(String.valueOf(score), WIDTH / 2 - 25, 100);
 		}
 		if (!gameOver) {
@@ -406,20 +409,24 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 	// Guardar Best Score
 	public void SaveBestScore(int BestScore) {
 		try {
-			if (Menu.dificultad == "facil") {
-				bw=new BufferedWriter(new FileWriter("C:\\Temp\\EasyScore.txt"));
-				bw.write(String.valueOf(BestScore+nl));
-				bw.write(Menu.jugador);
-			}else if (Menu.dificultad == "normal") {
-				bw=new BufferedWriter(new FileWriter("C:\\Temp\\NormalScore.txt"));
-				bw.write(String.valueOf(BestScore+nl));
-				bw.write(Menu.jugador);
-			}else if (Menu.dificultad == "dificil") {
-				bw=new BufferedWriter(new FileWriter("C:\\Temp\\HardScore.txt"));
-				bw.write(String.valueOf(BestScore+nl));
-				bw.write(Menu.jugador);
+			if (cheater == false) {
+				if (Menu.dificultad == "facil") {
+					bw=new BufferedWriter(new FileWriter("C:\\Temp\\EasyScore.txt"));
+					bw.write(String.valueOf(BestScore+nl));
+					bw.write(Menu.jugador);
+				}else if (Menu.dificultad == "normal") {
+					bw=new BufferedWriter(new FileWriter("C:\\Temp\\NormalScore.txt"));
+					bw.write(String.valueOf(BestScore+nl));
+					bw.write(Menu.jugador);
+				}else if (Menu.dificultad == "dificil") {
+					bw=new BufferedWriter(new FileWriter("C:\\Temp\\HardScore.txt"));
+					bw.write(String.valueOf(BestScore+nl));
+					bw.write(Menu.jugador);
+			}else {
+				cheater = false;
 			}
 			bw.close();
+		}
 		} catch (FileNotFoundException e) {
 			System.out.println("File not found");
 		} catch (IOException e) {
@@ -522,6 +529,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 			}
 		}
 		if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_ALT) {
+			cheater=true;
 			score += 10; 
 		}
 	}
