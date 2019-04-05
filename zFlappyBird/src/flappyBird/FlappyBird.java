@@ -390,17 +390,17 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 
 			g.drawString("Best Score: " + BestScore, 46, HEIGHT / 2 - 150);
 			repro.Stop();
+			
 
 			this.SaveBestScore(BestScore);
 		}
 
 		if (!gameOver && started)
 		{
-			cheater = false;
 			g.drawString(String.valueOf(score), WIDTH / 2 - 25, 100);
 		}
 		if (!gameOver) {
-			if (score>BestScore) {			
+			if (score>BestScore) {	
 				BestScore=score;
 			}
 		}
@@ -528,10 +528,18 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 				e1.printStackTrace();
 			}
 		}
+		
 		if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_ALT) {
 			cheater=true;
 			score += 10; 
 		}
+		
+		if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_C) {
+			if (space <= 1000) {
+				space += 100;
+			}
+		}
+		
 	}
 
 }
