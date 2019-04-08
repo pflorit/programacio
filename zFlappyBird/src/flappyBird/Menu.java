@@ -61,7 +61,7 @@ public class Menu extends JFrame {
 				Empezar();
 			}
 		});
-		btnNewButton.setBounds(92, 192, 89, 23);
+		btnNewButton.setBounds(90, 204, 89, 23);
 		contentPane.add(btnNewButton);
 
 		//area de texto para introducir el nombre
@@ -101,7 +101,7 @@ public class Menu extends JFrame {
 			}
 		});
 		facil.setSelected(true);
-		facil.setBounds(80, 110, 109, 23);
+		facil.setBounds(80, 97, 109, 23);
 		facil.setActionCommand("facil");
 		contentPane.add(facil);
 		
@@ -115,7 +115,7 @@ public class Menu extends JFrame {
 				}	
 			}
 		});
-		dificil.setBounds(80, 162, 109, 23);
+		dificil.setBounds(80, 149, 109, 23);
 		dificil.setActionCommand("dificil");
 		contentPane.add(dificil);
 		
@@ -128,15 +128,28 @@ public class Menu extends JFrame {
 				}	
 			}
 		});
-		normal.setBounds(80, 136, 109, 23);
+		normal.setBounds(80, 123, 109, 23);
 		normal.setActionCommand("normal");
 		contentPane.add(normal);
+		
+		JRadioButton Invertido = new JRadioButton("Invertido");
+		Invertido.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					Empezar();
+				}	
+			}
+		});
+		Invertido.setBounds(80, 173, 109, 23);
+		Invertido.setActionCommand("Invertido");
+		contentPane.add(Invertido);
 		
 		//agrupacion de los botones
 		grupo.add(facil);
 		grupo.add(normal);
 		grupo.add(dificil);
-         
+        grupo.add(Invertido);
 	}
 	
 	//Al empezar guarda el nombre y la dificultad, oculta el menu y muestra el juego.
