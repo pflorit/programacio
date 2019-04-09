@@ -253,11 +253,13 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 					}
 				}
 			}
+
 			if (Menu.dificultad == "Invertido") {
 				bird.y -= yMotion;
-			}else {
+			} else {
 				bird.y += yMotion;
 			}
+			
 
 			// Sirve para la puntuacion, por error de sumar 2
 			int a;
