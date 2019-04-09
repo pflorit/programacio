@@ -54,9 +54,9 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 	private int space = 300;
 
 	public String nl = System.getProperty("line.separator");
-	
+
 	public JFrame jframe = new JFrame();
-	
+
 	public boolean cheater = false;
 
 	Menu men = new Menu();
@@ -92,10 +92,13 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 		}else if (Menu.dificultad == "dificil") {
 			speed = 15 ;
 			space = 300;
+		}else if (Menu.dificultad == "Invertido") {
+			speed = 10;
+			space = 280;
 		}
 	}
 
-		
+
 	public void AudioColumna() {
 		try {
 			reprocol.AbrirFichero("C:\\Temp\\Sonidos\\Column.wav");
@@ -119,7 +122,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 		ReproduceAudio();
 		AudioColumna();
 		AudioMuerte();
-		
+
 		Timer timer = new Timer(20, this);
 
 		renderer = new Renderer();
@@ -135,7 +138,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 		jframe.setVisible(true);
 
 		if (Menu.jugador.equals("cide") || Menu.jugador.equals("Cide") || Menu.jugador.equals("CIDE")) {
-			bird = new Rectangle(WIDTH / 2 - 10, HEIGHT / 2 - 10, 100, 100);
+			bird = new Rectangle(WIDTH / 2 - 10, HEIGHT / 2 - 10, 75, 75);
 		} else {
 			bird = new Rectangle(WIDTH / 2 - 10, HEIGHT / 2 - 10, 50, 50);
 		}
@@ -158,6 +161,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 		{
 			columns.add(new Rectangle(WIDTH + width + columns.size() * 300, HEIGHT - height - 120, width, height));
 			columns.add(new Rectangle(WIDTH + width + (columns.size() - 1) * 300, 0, width, HEIGHT - height - space));
+
 		}
 		else
 		{
@@ -171,12 +175,13 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 		if (Menu.jugador.equals("undertale") || Menu.jugador.equals("Undertale")) {
 			ImageIcon tub = new ImageIcon(new ImageIcon(getClass().getResource("/flappyBird/hueso.png")).getImage());
 			g.drawImage(tub.getImage(), column.x, column.y, column.width, column.height, null);
-	
-		} else {
+
+		}else {
 			ImageIcon tub = new ImageIcon(new ImageIcon(getClass().getResource("/flappyBird/Tub.JPG")).getImage());
 			g.drawImage(tub.getImage(), column.x, column.y, column.width, column.height, null);
+
 		}
-		
+
 	}
 
 	public void jump()
@@ -184,7 +189,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 		if (gameOver)
 		{
 			if (Menu.jugador.equals("cide") || Menu.jugador.equals("Cide") || Menu.jugador.equals("CIDE")) {
-				bird = new Rectangle(WIDTH / 2 - 10, HEIGHT / 2 - 10, 100, 100);
+				bird = new Rectangle(WIDTH / 2 - 10, HEIGHT / 2 - 10, 75, 75);
 			} else {
 				bird = new Rectangle(WIDTH / 2 - 10, HEIGHT / 2 - 10, 50, 50);
 			}
@@ -196,7 +201,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 			addColumn(true);
 			addColumn(true);
 			addColumn(true);
-		
+
 			gameOver = false;
 		}
 
@@ -248,23 +253,26 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 					}
 				}
 			}
+			if (Menu.dificultad == "Invertido") {
+				bird.y -= yMotion;
+			}else {
+				bird.y += yMotion;
+			}
 
-			bird.y += yMotion;
-			
 			// Sirve para la puntuacion, por error de sumar 2
 			int a;
 			int b;
-			
+
 			for (Rectangle column : columns)
 			{	
 				if (Menu.dificultad == "dificil") {
-					 a = 5;
-					 b = 10;
+					a = 5;
+					b = 10;
 				} else {
-					 a = 10;
-					 b = 5;
+					a = 10;
+					b = 5;
 				}
-				
+
 				if (column.y == 0 && bird.x + bird.width / 2 > column.x + column.width / 2 - a && bird.x + bird.width / 2 < column.x + column.width / 2 + b)
 				{
 					try {
@@ -317,51 +325,53 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 		}
 		renderer.repaint();
 	}
-	
+
 	// Pinta el fondo de pantalla + el pajaro
 	public void pintaFondo(Graphics g) throws Exception{
 		if (Menu.jugador.equals("undertale") || Menu.jugador.equals("Undertale")) {
 			// Pinta el fondo de pantalla
 			ImageIcon imagen = new ImageIcon(new ImageIcon(getClass().getResource("/flappyBird/fondo-und.png")).getImage());
 			g.drawImage(imagen.getImage(), 0,0,WIDTH,HEIGHT - 20, null);
-			
+
 			// Pinta pajaro
 			ImageIcon p = new ImageIcon(new ImageIcon(getClass().getResource("/flappyBird/undertale.png")).getImage());
 			g.drawImage(p.getImage(), bird.x, bird.y, bird.width, bird.height, null);
+			
 			// Pinta el suelo
 			g.setColor(Color.BLACK);
 			g.fillRect(0, HEIGHT - 120, WIDTH, 140);
-			
+
 		} else if (Menu.jugador.equals("cide") || Menu.jugador.equals("Cide") || Menu.jugador.equals("CIDE")) {
 			// Pinta el fondo de pantalla
 			ImageIcon imagen = new ImageIcon(new ImageIcon(getClass().getResource("/flappyBird/CIDE.jpg")).getImage());
 			g.drawImage(imagen.getImage(), 0,0,WIDTH,HEIGHT - 20, null);
-						
+
 			// Pinta pajaro
 			ImageIcon p = new ImageIcon(new ImageIcon(getClass().getResource("/flappyBird/super.png")).getImage());
 			g.drawImage(p.getImage(), bird.x, bird.y, bird.width, bird.height, null);	
+		
 			// Pinta el suelo
 			g.setColor(Color.GREEN.darker());
 			g.fillRect(0, HEIGHT - 120, WIDTH, 140);
-			
+
 		} else {
 			// Pinta el fondo de pantalla
 			ImageIcon imagen = new ImageIcon(new ImageIcon(getClass().getResource("/flappyBird/fondo.jpg")).getImage());
 			g.drawImage(imagen.getImage(), 0,0,WIDTH,HEIGHT - 20, null);
-			
+
 			// Pinta pajaro
 			ImageIcon p = new ImageIcon(new ImageIcon(getClass().getResource("/flappyBird/pajaroFly.gif")).getImage());
 			g.drawImage(p.getImage(), bird.x, bird.y, bird.width, bird.height, null);	
 		}
 	}
-	
-	
+
+
 	public void repaint(Graphics g) throws Exception
 	{
 		GetBestScore();
-		
+
 		pintaFondo(g);
-		
+
 		for (Rectangle column : columns)
 		{
 			paintColumn(g, column);
@@ -390,7 +400,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 
 			g.drawString("Best Score: " + BestScore, 46, HEIGHT / 2 - 150);
 			repro.Stop();
-			
+
 
 			this.SaveBestScore(BestScore);
 		}
@@ -422,15 +432,19 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 					bw=new BufferedWriter(new FileWriter("C:\\Temp\\HardScore.txt"));
 					bw.write(String.valueOf(BestScore+nl));
 					bw.write(Menu.jugador);
-			}else {
-				cheater = false;
+				}else if (Menu.dificultad == "Invertido") {
+					bw=new BufferedWriter(new FileWriter("C:\\Temp\\InvertidoScore.txt"));
+					bw.write(String.valueOf(BestScore+nl));
+					bw.write(Menu.jugador);
+				}else {
+					cheater = false;
+				}
+				bw.close();
 			}
-			bw.close();
-		}
 		} catch (FileNotFoundException e) {
 			System.out.println("File not found");
 		} catch (IOException e) {
-			System.out.println("File can't open");
+			System.out.println("File can't be opened");
 		} 
 	}
 
@@ -446,12 +460,15 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 			}else if (Menu.dificultad == "dificil") {
 				br=new BufferedReader(new FileReader("C:\\Temp\\HardScore.txt"));
 				BestScore=Integer.parseInt(br.readLine());
+			}else if (Menu.dificultad == "Invertido") {
+				br=new BufferedReader(new FileReader("C:\\Temp\\InvertidoScore.txt"));
+				BestScore=Integer.parseInt(br.readLine());
 			}
 			br.close();
 		} catch (FileNotFoundException e) {
 			System.out.println("File not found");
 		} catch (IOException e) {
-			System.out.println("File can't open");
+			System.out.println("File can't be opened");
 		} 
 	}
 
@@ -488,7 +505,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 			jump();
 		}
 	}
-	
+
 
 	@Override
 	public void mousePressed(MouseEvent e)
@@ -528,18 +545,18 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 				e1.printStackTrace();
 			}
 		}
-		
+
 		if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_ALT) {
 			cheater=true;
 			score += 10; 
 		}
-		
+
 		if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_C) {
 			if (space <= 1000) {
 				space += 100;
 			}
 		}
-		
+
 	}
 
 }
