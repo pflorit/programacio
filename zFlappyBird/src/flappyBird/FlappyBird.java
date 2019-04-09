@@ -176,7 +176,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 			ImageIcon tub = new ImageIcon(new ImageIcon(getClass().getResource("/flappyBird/hueso.png")).getImage());
 			g.drawImage(tub.getImage(), column.x, column.y, column.width, column.height, null);
 
-		} else {
+		}else {
 			ImageIcon tub = new ImageIcon(new ImageIcon(getClass().getResource("/flappyBird/Tub.JPG")).getImage());
 			g.drawImage(tub.getImage(), column.x, column.y, column.width, column.height, null);
 
@@ -253,13 +253,11 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 					}
 				}
 			}
-
 			if (Menu.dificultad == "Invertido") {
 				bird.y -= yMotion;
-			} else {
+			}else {
 				bird.y += yMotion;
 			}
-			
 
 			// Sirve para la puntuacion, por error de sumar 2
 			int a;
@@ -446,7 +444,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 		} catch (FileNotFoundException e) {
 			System.out.println("File not found");
 		} catch (IOException e) {
-			System.out.println("File can't open");
+			System.out.println("File can't be opened");
 		} 
 	}
 
@@ -470,7 +468,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 		} catch (FileNotFoundException e) {
 			System.out.println("File not found");
 		} catch (IOException e) {
-			System.out.println("File can't open");
+			System.out.println("File can't be opened");
 		} 
 	}
 
