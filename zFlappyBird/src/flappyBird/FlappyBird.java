@@ -70,10 +70,17 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 	// Sonido de muerte
 	Audio death = new Audio();
 
+	/**
+	 * Metodo para reproducir el audio
+	 */
 	public void ReproduceAudio() { 
 		try {
+			//en caso de que como nombre pongas "undertale" la musica sera diferente.
 			if (Menu.jugador.equals("undertale") || Menu.jugador.equals("Undertale")) {
 				repro.AbrirFichero("C:\\Temp\\Sonidos\\undertale.wav");
+				//emppieza la musica
+				repro.Play();
+			//musica por defecto
 			} else {
 				repro.AbrirFichero("C:\\Temp\\Sonidos\\tetris.mp3");
 				repro.Play();
@@ -82,6 +89,10 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 			System.out.println("Error: " + ex.getMessage());
 		}
 	}
+	/**
+	 * Metodo con las dificultades del juego.
+	 * Las dificultades varian cambiando el ancho entre columnas y la velocidad.
+	 */
 	public void cambiarDificultad(){
 		if (Menu.dificultad == "facil") {
 			speed = 10;
@@ -98,7 +109,9 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 		}
 	}
 
-
+	/**
+	 * Audio que sonara al pasar por las columnas.
+	 */
 	public void AudioColumna() {
 		try {
 			reprocol.AbrirFichero("C:\\Temp\\Sonidos\\Column.wav");
@@ -107,7 +120,10 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 		}
 
 	}
-
+	
+	/**
+	 * Audio que sonara cuando perdamos.
+	 */
 	public void AudioMuerte() {
 		try {
 			death.AbrirFichero("C:\\Temp\\Sonidos\\golpe.wav");
@@ -115,19 +131,25 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 			System.out.println("Error: " + e);
 		}
 	}
-
+	
+	/**
+	 * Constructor principal
+	 */
 	public FlappyBird()
 	{	
+		//al rpincipio de todo cambiamos la dificultad segun la seleccionada por el jugador e iniciamos los diferentes audios.
 		cambiarDificultad();
 		ReproduceAudio();
 		AudioColumna();
 		AudioMuerte();
-
+		
+		//velocidad a la que se refresca la pantalla, consiguiendo asi el efecto de movimiento de las columnas y el pajaro.
 		Timer timer = new Timer(20, this);
 
 		renderer = new Renderer();
 		rand = new Random();
-
+		
+		//creacion del jframe del juego.
 		jframe.add(renderer);
 		jframe.setTitle("Flappy Bird");
 		jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -137,23 +159,30 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 		jframe.setResizable(false);
 		jframe.setVisible(true);
 
+		//variacion del tamaño del pajaro, para adaptarlo a los diferentes iconos segun el codigo con el que juguemos.
 		if (Menu.jugador.equals("cide") || Menu.jugador.equals("Cide") || Menu.jugador.equals("CIDE")) {
 			bird = new Rectangle(WIDTH / 2 - 10, HEIGHT / 2 - 10, 75, 75);
 		} else {
 			bird = new Rectangle(WIDTH / 2 - 10, HEIGHT / 2 - 10, 50, 50);
 		}
+		// array para la generacion de columnas.
 		columns = new ArrayList<Rectangle>();
 
 		addColumn(true);
 		addColumn(true);
 		addColumn(true);
 		addColumn(true);
-
+		
 		timer.start();
 	}
 
+	/**
+	 *Metodo para crear las columnas
+	 * @param start
+	 */
 	public void addColumn(boolean start)
 	{
+		//definicion del tamaño
 		int width = 100;
 		int height = 50 + rand.nextInt(300);
 
@@ -170,12 +199,19 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 		}
 	}
 
+	/**
+	 * Metodo para dar imagen a las columnas
+	 * @param g
+	 * @param column
+	 */
 	public void paintColumn(Graphics g, Rectangle column)
 	{
+		//Si estamos en el nivel especial del undertale pondremos una imagen de ese juego a las columnas.
 		if (Menu.jugador.equals("undertale") || Menu.jugador.equals("Undertale")) {
 			ImageIcon tub = new ImageIcon(new ImageIcon(getClass().getResource("/flappyBird/hueso.png")).getImage());
 			g.drawImage(tub.getImage(), column.x, column.y, column.width, column.height, null);
 
+		//imagen por defecto de las columnas.		
 		}else {
 			ImageIcon tub = new ImageIcon(new ImageIcon(getClass().getResource("/flappyBird/Tub.JPG")).getImage());
 			g.drawImage(tub.getImage(), column.x, column.y, column.width, column.height, null);
@@ -183,28 +219,35 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 		}
 
 	}
-
+	/**
+	 * Metodo del salto del pajaro.
+	 */
 	public void jump()
-	{
+	{	
+		//que pasa si morimos:
 		if (gameOver)
-		{
+		{	//si morirmos repintamos el pajaro
 			if (Menu.jugador.equals("cide") || Menu.jugador.equals("Cide") || Menu.jugador.equals("CIDE")) {
 				bird = new Rectangle(WIDTH / 2 - 10, HEIGHT / 2 - 10, 75, 75);
 			} else {
 				bird = new Rectangle(WIDTH / 2 - 10, HEIGHT / 2 - 10, 50, 50);
 			}
+			//limiamos las columnas que se habian pintado antes
 			columns.clear();
+			//movimiento a cero
 			yMotion = 0;
+			//puntuacion a cero
 			score = 0;
-
+			//creacion de las nuevas columnas
 			addColumn(true);
 			addColumn(true);
 			addColumn(true);
 			addColumn(true);
-
+			//vivimos
 			gameOver = false;
 		}
 
+		//ymotion es el salto del pajaro
 		if (!started)
 		{
 			started = true;
@@ -214,31 +257,33 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 			if (yMotion > 0) {
 				yMotion = 0;
 			}
-
 			yMotion -= 10;
 		}
 	}
-
 	@Override
+	/**
+	 * metodo para las acciones dentro del juego
+	 */
 	public void actionPerformed(ActionEvent e)
 	{
+		//ticks que se hacen en el juego
 		ticks++;
-
+		//que pasa si el juego empieza
 		if (started)
 		{ 
-
+			//pinta las columnas
 			for (int i = 0; i < columns.size(); i++)
 			{
 				Rectangle column = columns.get(i);
-
+				//aparicion de las columnas
 				column.x -= speed;
 			}
-
+			//control del salto
 			if (ticks % 2 == 0 && yMotion < 15)
 			{
 				yMotion += 2;
 			}
-
+			//limpia las columnas que han pasado y crea de nuevas
 			for (int i = 0; i < columns.size(); i++)
 			{
 				Rectangle column = columns.get(i);
@@ -253,16 +298,19 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 					}
 				}
 			}
+			//direccion en la que salta el pajaro
 			if (Menu.dificultad == "Invertido") {
+				//aqui al saltar baja
 				bird.y -= yMotion;
 			}else {
+				//aqui al saltar sube
 				bird.y += yMotion;
 			}
 
 			// Sirve para la puntuacion, por error de sumar 2
 			int a;
 			int b;
-
+			
 			for (Rectangle column : columns)
 			{	
 				if (Menu.dificultad == "dificil") {
@@ -283,18 +331,20 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 					score++;
 				}
 
+				//cuando toca columna
 				if (column.intersects(bird))
 				{
+					//muere
 					gameOver = true;
 
 					if (bird.x <= column.x)
 					{
 						bird.x = column.x - bird.width;
-
 					}
 					else
 					{
 						try {
+							//para el sonido de las columnas
 							reprocol.Stop();
 						} catch (Exception e1) {
 							e1.printStackTrace();
@@ -354,7 +404,12 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 			g.setColor(Color.GREEN.darker());
 			g.fillRect(0, HEIGHT - 120, WIDTH, 140);
 
-		} else {
+		} 
+		
+		
+		
+		
+		else {
 			// Pinta el fondo de pantalla
 			ImageIcon imagen = new ImageIcon(new ImageIcon(getClass().getResource("/flappyBird/fondo.jpg")).getImage());
 			g.drawImage(imagen.getImage(), 0,0,WIDTH,HEIGHT - 20, null);
