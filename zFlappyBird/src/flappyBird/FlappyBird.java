@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.Timer;
+import javax.swing.Timer; 
 
 
 public class FlappyBird implements ActionListener, MouseListener, KeyListener
@@ -423,57 +423,80 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 
 	public void repaint(Graphics g) throws Exception
 	{
+		// Nos proporciona el mejor score 
 		GetBestScore();
-
+		
+		// Pinta el pajaro, el fondo de pantalla y el suelo
 		pintaFondo(g);
 
+		// Pinta una columna
 		for (Rectangle column : columns)
 		{
 			paintColumn(g, column);
 		}
-
+		
+		// Seleccionamos el color de la fuente 
 		g.setColor(Color.white);
+		// Seleccionamos el tipo de fuente que queremos y el tamaño
 		g.setFont(new Font("Arial", 1, 100));
 
+		// Cuando deje de ser game over, reproduce la cancion desde el principio
 		if (!gameOver) {
 			repro.Play();
 		}
 
+		// Cuando started sea false, muesta por pantalla el siguiente mensaje
 		if (!started)
 		{
 			g.drawString("Click to start!", 75, HEIGHT / 2 - 50);
 		}
 
+		// Si es Game Over
 		if (gameOver)
 		{
+			// Si el score es mayor al BestScore, guarda el score en el BestScore
 			if (score>BestScore) {
 				BestScore=score;
 				SaveBestScore(BestScore);
 			}    
+			// Reproduce el sonido de muerte
 			death.Play();
+			// Escribe por pantalla "Game Over"
 			g.drawString("Game Over!", 100, HEIGHT / 2 - 50);
-
+			
+			// Escribe por pantalla "Best Score" + la mejor puntuacion actual
 			g.drawString("Best Score: " + BestScore, 46, HEIGHT / 2 - 150);
+			// Para el sonido de fondo que suena al iniciar el juego
 			repro.Stop();
 
-
+			// Guarda el BestScore
 			this.SaveBestScore(BestScore);
 		}
-
+		
+		// Si game over es falso y started es verdadero
 		if (!gameOver && started)
 		{
+			// Muestra por pantalla la puntuacion actual
 			g.drawString(String.valueOf(score), WIDTH / 2 - 25, 100);
 		}
+		
+		// Si game over es falso
 		if (!gameOver) {
+			// Comprueba que el score es mayor al BestScore
 			if (score>BestScore) {	
+				// Guarda en el BestScore el mejor socore actual
 				BestScore=score;
 			}
 		}
 	}
 
-	// Guardar Best Score
+	/**
+	 * Guarda las mejores puntuaciones con el nombre del jugador que realize el jugador el los distintos niveles
+	 * @param BestScore
+	 */
 	public void SaveBestScore(int BestScore) {
 		try {
+			// Comprobamos el nivel que ha seleccionado el jugador y guardamos el score
 			if (cheater == false) {
 				if (Menu.dificultad == "facil") {
 					bw=new BufferedWriter(new FileWriter("C:\\Temp\\EasyScore.txt"));
@@ -492,23 +515,29 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 					bw.write(String.valueOf(BestScore+nl));
 					bw.write(Menu.jugador);
 				}else {
+					// Pasa el cheater a false
 					cheater = false;
 				}
+				// Cierra el Buffered Writer
 				bw.close();
 			}
+		// Captura las diferentes exceptions
 		} catch (FileNotFoundException e) {
 			System.out.println("File not found");
 		} catch (IOException e) {
-			System.out.println("File can't be opened");
+			System.out.println("File can't open");
 		} 
 	}
 
-	// Obtener best score
+	/**
+	 * Leemos de un fichero la mejor puntuacion realizada en cada nivel
+	 */
 	public void GetBestScore() {
 		try {
+			// Leemos el nivel seleccionado y luego lo pasamos a integer
 			if (Menu.dificultad == "facil") {
 				br=new BufferedReader(new FileReader("C:\\Temp\\EasyScore.txt"));
-				BestScore=Integer.parseInt(br.readLine());		
+				BestScore=Integer.parseInt(br.readLine());
 			}else if (Menu.dificultad == "normal") {
 				br=new BufferedReader(new FileReader("C:\\Temp\\NormalScore.txt"));
 				BestScore=Integer.parseInt(br.readLine());
@@ -519,25 +548,35 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 				br=new BufferedReader(new FileReader("C:\\Temp\\InvertidoScore.txt"));
 				BestScore=Integer.parseInt(br.readLine());
 			}
+			// Cerramos el Buffered Reader
 			br.close();
+		// Capturamos las distintas exceptions
 		} catch (FileNotFoundException e) {
 			System.out.println("File not found");
 		} catch (IOException e) {
-			System.out.println("File can't be opened");
+			System.out.println("File can't open");
 		} 
 	}
 
+	/**
+	 *  Una vez dentro del juego, nos deja volber al menu
+	 */
 	public void volvreAlMenu() {
+		// Muestra el menu y no permiye que se cambie el tamaño
 		Menu.frame.setVisible(true);
 		Menu.frame.setResizable(false);
+		// Oculta la ventana del flappyBird
 		jframe.setVisible(false);
 	}
 
 	public static void main(String[] args){
+		// Invocacion del menu
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					// Haz que el panel del menu sea visible
 					Menu.frame.setVisible(true);
+					// No se puede modificar el tamaño del menu
 					Menu.frame.setResizable(false);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -546,21 +585,22 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 		});
 	}
 
+	// Cuando presionas cualquier boton del raton, el pajaro saltara
 	@Override
 	public void mouseClicked(MouseEvent e)
 	{
 		jump();
 	}
-
+	
 	@Override
 	public void keyReleased(KeyEvent e)
 	{
+		// Cuando dejes de pulsar el espacio, el pajara saltara
 		if (e.getKeyCode() == KeyEvent.VK_SPACE)
 		{
 			jump();
 		}
 	}
-
 
 	@Override
 	public void mousePressed(MouseEvent e)
@@ -590,22 +630,27 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener
 	@Override
 	public void keyPressed(KeyEvent e)
 	{
+		// Pulsar escape para ir al menu
 		if (e.getKeyCode() == KeyEvent.VK_ESCAPE)
 		{
 			volvreAlMenu();
 			try {
+				// Para la musica de fondo + la musica al morir
 				repro.Stop();
 				death.Stop();
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
 		}
-
+		
+		// Cuando se presiona control + alt, sumara 10 puntos al score
 		if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_ALT) {
+			// Si es un cheratr, no guardara la puntuacion en el documento
 			cheater=true;
 			score += 10; 
 		}
-
+		
+		// Cuando se presione control + c, agrandara el espacio entre columnas
 		if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_C) {
 			if (space <= 1000) {
 				space += 100;
